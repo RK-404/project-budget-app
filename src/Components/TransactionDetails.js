@@ -24,8 +24,8 @@ function TransactionDetails() {
   };
   
   return (
-    <article className="log-page">
-      <div className="log-detail">
+    <article className="tr-page">
+      <div className="tr-detail">
         <h2>{transaction.item_name}</h2>
         <h5>Amount: {transaction.amount}</h5>
         <h5>Date: {transaction.date}</h5>

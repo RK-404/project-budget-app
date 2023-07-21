@@ -1,6 +1,6 @@
 import Transaction from "./Transaction";
 
-function Transactions( {transactions} ) {
+function Transactions({ transactions }) {
   return (
     <div className="transactions">
       <section>

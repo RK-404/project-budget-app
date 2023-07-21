@@ -5,11 +5,11 @@ function Transaction({ transaction, index }) {
   
   return (
     <tr className="transaction">
-      <td>{shortDate}</td>
+      <td className="tr-date">{shortDate}</td>
       <td>
-        <Link to={`/transactions/${index}`}>{transaction.item_name}</Link>
+        <Link className="tr-name" to={`/transactions/${index}`}>{transaction.item_name}</Link>
       </td>
-      <td>{transaction.amount}</td>
+      <td className="tr-amount">{transaction.amount.toFixed(2)}</td>
     </tr>
   );
 }
