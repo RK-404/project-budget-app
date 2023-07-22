@@ -7,7 +7,7 @@ body {
 
 nav {
   /* background: #7affd1; */
-  background-image: url("./Components/bg-1.png");
+  background-image: linear-gradient(to right, #ffffff00, #ffffff80), url("./Components/bg-1.png");
   display: flex;
   align-items: center;
   flex-wrap: wrap;
