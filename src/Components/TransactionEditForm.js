@@ -41,6 +41,13 @@ function TransactionEditForm() {
     setTransaction({ ...transaction, [event.target.id]: Number(event.target.value) });
   };
 
+  const handleDateChange = (event) => {
+    let newDate = event.target.value.replace(/(....).(..).(..)/, "$2/$3/$1");
+    // let date = new Date(event.target.value);
+    // let newDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    setTransaction({ ...transaction, [event.target.id]: newDate });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     updateTransaction();
@@ -52,10 +59,10 @@ function TransactionEditForm() {
         <label htmlFor="date">Date:</label>
         <input
           id="date"
-          type="text"
-          value={transaction.date}
+          type="date"
+          value={transaction.date.replace(/(..).(..).(....)/, "$3-$1-$2")}
           placeholder="mm/dd/yyyy"
-          onChange={handleTextChange}
+          onChange={handleDateChange}
         />
         <br/>
         <label htmlFor="item_name">Name:</label>
@@ -87,13 +94,23 @@ function TransactionEditForm() {
           onChange={handleTextChange}
         />
         <br/>
-        <label htmlFor="category">Category:</label>
-        <input
-          id="category"
-          type="text"
-          onChange={handleTextChange}
-          value={transaction.category}
-        />
+        <label htmlFor="category">Select a Category:</label>
+        <select onChange={handleTextChange} id="category" value={transaction.category}>
+          <option></option>
+          <option value='Income'>Income</option>
+          <option value='Miscellaneous'>Miscellaneous</option>
+          <option value='Investments'>Investments</option>
+          <option value='Living Expenses'>Living Expenses</option>
+          <option value='Food & Dining'>Food & Dining</option>
+          <option value='Health & Fitnes'>Health & Fitness</option>
+          <option value='Personal Care'>Personal Care</option>
+          <option value='Transportation'>Transportation</option>
+          <option value='Shopping'>Shopping</option>
+          <option value='Bills & Utilities'>Bills & Utilities</option>
+          <option value='Gifts & Donations'>Gifts & Donations</option>
+          <option value='Entertainment'>Entertainment</option>
+          <option value='Taxes'>Taxes</option>
+        </select>
         <br/>
         <input type="submit" value="Edit Transaction" />
       </form>

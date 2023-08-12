@@ -22,13 +22,15 @@ function TransactionDetails() {
       .then(() => navigate(`/transactions`))
       .catch((e) => console.error(e));
   };
+
+  let date =  new Date(transaction.date).toLocaleDateString('en-us', { month:"long", day:"numeric", year:"numeric"});
   
   return (
     <article className="tr-page">
       <div className="tr-detail">
         <h2>{transaction.item_name}</h2>
         <h5>Amount: {transaction.amount}</h5>
-        <h5>Date: {transaction.date}</h5>
+        <h5>Date: {date}</h5>
         <h5>From: {transaction.from}</h5>
         <h5>Category: {transaction.category}</h5>
       </div>
