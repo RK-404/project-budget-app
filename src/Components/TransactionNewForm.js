@@ -7,8 +7,7 @@ const API = process.env.REACT_APP_API_URL;
 
 function LogNewForm() {
   const navigate = useNavigate();
-  // console.log(uid());
-
+  const [deposit, setDeposit] = useState(true);
   const [transaction, setTransaction] = useState({
     id: uid(),
     item_name: "",
@@ -40,8 +39,13 @@ function LogNewForm() {
     setTransaction({ ...transaction, [event.target.id]: newDate });
   };
 
+  const handleCheckboxChange = () => {
+    setDeposit(!deposit);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    transaction.amount = deposit ? transaction.amount : transaction.amount * -1;
     addTransaction(transaction);
   };
 
@@ -103,8 +107,25 @@ function LogNewForm() {
           <option value='Entertainment'>Entertainment</option>
           <option value='Taxes'>Taxes</option>
         </select>
+        <p>Select Transaction Type (Select One):</p>
+        <div className="check-boxes">
+          <label className="checkbox-label">Deposit:</label>
+          <input
+            id="deposit"
+            type="checkbox"
+            onChange={handleCheckboxChange}
+            checked={deposit}
+          />
+          <label className="checkbox-label">Withdrawal:</label>
+          <input
+            id="deposit"
+            type="checkbox"
+            onChange={handleCheckboxChange}
+            checked={!deposit}
+          />
+        </div>
         <br/>
-        <input type="submit" value="Creat New Transaction" />
+        <input type="submit" value="Create" />
       </form>
     </div>
   );

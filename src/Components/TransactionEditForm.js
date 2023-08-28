@@ -7,7 +7,6 @@ const API = process.env.REACT_APP_API_URL;
 function TransactionEditForm() {
   let { index } = useParams();
   const navigate = useNavigate();
-
   const [transaction, setTransaction] = useState({
     item_name: "",
     amount: 0,
@@ -23,6 +22,8 @@ function TransactionEditForm() {
       .catch((e) => console.error(e));
   }, [index]);
 
+  const [deposit, setDeposit] = useState(transaction.amount < 0 ? false : true);
+  
   const updateTransaction = () => {
     axios
       .put(`${API}/transactions/${index}`, transaction)
@@ -48,8 +49,13 @@ function TransactionEditForm() {
     setTransaction({ ...transaction, [event.target.id]: newDate });
   };
 
+  const handleCheckboxChange = () => {
+    setDeposit(!deposit);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    transaction.amount = deposit ? transaction.amount : transaction.amount * -1;
     updateTransaction();
   };
 
@@ -79,7 +85,7 @@ function TransactionEditForm() {
         <input
           id="amount"
           type="number"
-          value={transaction.amount}
+          value={transaction.amount * -1}
           placeholder="amount"
           onChange={handleAmountChange}
           required
@@ -111,8 +117,25 @@ function TransactionEditForm() {
           <option value='Entertainment'>Entertainment</option>
           <option value='Taxes'>Taxes</option>
         </select>
+        <p>Select Transaction Type (Select One):</p>
+        <div className="check-boxes">
+          <label className="checkbox-label">Deposit:</label>
+          <input
+            id="deposit"
+            type="checkbox"
+            onChange={handleCheckboxChange}
+            checked={deposit}
+          />
+          <label className="checkbox-label">Withdrawal:</label>
+          <input
+            id="deposit"
+            type="checkbox"
+            onChange={handleCheckboxChange}
+            checked={!deposit}
+          />
+        </div>
         <br/>
-        <input type="submit" value="Edit Transaction" />
+        <input type="submit" value="Edit" />
       </form>
       <Link to={`/transactions/${index}`}>
         <button>Back</button>
