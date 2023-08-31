@@ -7,6 +7,7 @@ const API = process.env.REACT_APP_API_URL;
 function TransactionEditForm() {
   let { index } = useParams();
   const navigate = useNavigate();
+  const [deposit, setDeposit] = useState(true);
   const [transaction, setTransaction] = useState({
     item_name: "",
     amount: 0,
@@ -18,12 +19,15 @@ function TransactionEditForm() {
   useEffect(() => {
     axios
       .get(`${API}/transactions/${index}`)
-      .then((response) => setTransaction(response.data))
+      .then((response) => {
+        setTransaction(response.data);
+        if (response.data.amount < 0) {
+          setDeposit(false);
+        }
+      })
       .catch((e) => console.error(e));
   }, [index]);
 
-  const [deposit, setDeposit] = useState(transaction.amount < 0 ? false : true);
-  
   const updateTransaction = () => {
     axios
       .put(`${API}/transactions/${index}`, transaction)
@@ -55,7 +59,9 @@ function TransactionEditForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    transaction.amount = deposit ? transaction.amount : transaction.amount * -1;
+    if ((!deposit && transaction.amount > 0) || (deposit && transaction.amount < 0)) {
+      transaction.amount *= -1;
+    }
     updateTransaction();
   };
 
@@ -85,7 +91,7 @@ function TransactionEditForm() {
         <input
           id="amount"
           type="number"
-          value={transaction.amount * -1}
+          value={transaction.amount < 0 ? transaction.amount * -1 : transaction.amount}
           placeholder="amount"
           onChange={handleAmountChange}
           required
